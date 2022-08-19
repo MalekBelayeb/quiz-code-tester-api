@@ -41,6 +41,8 @@ const getCodingTest = async (req, res) => {
 
         let result = {}
         let codingTest = await CodingTest.findById(req.params.id)
+        if (!codingTest) return res.status(404).send({ message: "coding test no found" })
+
         result.description = codingTest.testDescription ?? ""
         result.codeText = await fs.readFileAsync("uploads/" + codingTest.codeFile)
 
@@ -64,14 +66,14 @@ const testCodingTest = async (req, res) => {
         let attemptFileName = req.attemptFileName
         let testAttemptFilePath = req.testAttemptFilePath
         let attemptResultObj = req.attemptResult
-
+        
         let existCodingAttempt = await CodingAttempt.findOne({ candidate: idCandidate, codingTest: idCodingTest })
 
         if (existCodingAttempt) {
-            
+
             //Deleting old attempt & unit test files asynchronously 
-            fs.unlink(getFolder("js") + "/" + existCodingAttempt.codingAttemptFile,(err) => {})
-            fs.unlink(getFolder("js") + "/" + existCodingAttempt.codingTestCasesFile,(err) => {})
+            fs.unlink(getFolder("js") + "/" + existCodingAttempt.codingAttemptFile, (err) => { })
+            fs.unlink(getFolder("js") + "/" + existCodingAttempt.codingTestCasesFile, (err) => { })
             existCodingAttempt.codingAttemptFile = attemptFileName
             existCodingAttempt.codingTestCasesFile = testAttemptFilePath
             existCodingAttempt.testCases = attemptResultObj

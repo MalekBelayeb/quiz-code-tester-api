@@ -9,7 +9,7 @@ export default (req, res, next) => {
 
     let testResult = req.testResult
     let testCasesResult = []
-
+        
     let attemptResult = {}
     testResult.map((item) => {
         item.map((line) => {
@@ -47,6 +47,6 @@ export default (req, res, next) => {
 
     req.attemptResult = attemptResult
 
-    next()
+   next()
         
 }
