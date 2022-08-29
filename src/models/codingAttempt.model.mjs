@@ -10,9 +10,7 @@ const CodingAttemptSchema = new Schema({
     testCases:{type:Object}
     
 },{
-    versionKey:'attemptNum',
     timestamps: true
-
 });
 
 export default mongoose.model('CodingAttempt', CodingAttemptSchema);

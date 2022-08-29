@@ -7,7 +7,7 @@ export default (req, res, next) => {
     var processStatus = 'CODE_INCORRECT' | 'CODE_CORRECT' | 'REACHED_TIMEOUT'
     var message = ''
 
-    var timeoutProcess = 2000 
+    var timeoutProcess = 2000
 
     if (attemptFiles.length > 0) {
 

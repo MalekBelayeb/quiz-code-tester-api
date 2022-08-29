@@ -2,6 +2,7 @@ import CodingTest from '../models/codingTest.model.mjs';
 import CodingAttempt from '../models/codingAttempt.model.mjs';
 import getFolder from "../tools/folderManger.mjs";
 import fs from '../tools/fsPrototypes.mjs'
+import mongoose from 'mongoose';
 
 const createCodingTest = async (req, res) => {
 
@@ -40,8 +41,19 @@ const getCodingTest = async (req, res) => {
     try {
 
         let result = {}
-        let codingTest = await CodingTest.findById(req.params.id)
-        if (!codingTest) return res.status(404).send({ message: "coding test no found" })
+        console.log(new mongoose.Types.ObjectId.isValid(req.params.id))
+        if(!ObjectId.isValid(req.params.id))  return res.status(404).send({ message: "Invalid id" })
+
+        var codingTest = await CodingTest.aggregate([
+            {
+                $match: { _id: new mongoose.Types.ObjectId(req.params.id) }
+            }
+        ]).exec();
+
+        console.log(codingTest)
+        
+        if (!codingTest || codingTest.legnth < 0) return res.status(404).send({ message: "coding test no found" })
+        codingTest = codingTest[0];
 
         result.description = codingTest.testDescription ?? ""
         result.codeText = await fs.readFileAsync("uploads/" + codingTest.codeFile)
@@ -66,36 +78,17 @@ const testCodingTest = async (req, res) => {
         let attemptFileName = req.attemptFileName
         let testAttemptFilePath = req.testAttemptFilePath
         let attemptResultObj = req.attemptResult
-        
-        let existCodingAttempt = await CodingAttempt.findOne({ candidate: idCandidate, codingTest: idCodingTest })
 
-        if (existCodingAttempt) {
+        let codingAttempt = new CodingAttempt()
+        codingAttempt.candidate = idCandidate
+        codingAttempt.codingTest = idCodingTest
+        codingAttempt.codingAttemptFile = attemptFileName
+        codingAttempt.codingTestCasesFile = testAttemptFilePath
+        codingAttempt.testCases = attemptResultObj
 
-            //Deleting old attempt & unit test files asynchronously 
-            fs.unlink(getFolder("js") + "/" + existCodingAttempt.codingAttemptFile, (err) => { })
-            fs.unlink(getFolder("js") + "/" + existCodingAttempt.codingTestCasesFile, (err) => { })
-            existCodingAttempt.codingAttemptFile = attemptFileName
-            existCodingAttempt.codingTestCasesFile = testAttemptFilePath
-            existCodingAttempt.testCases = attemptResultObj
-            existCodingAttempt.attemptNum++
-
-            await existCodingAttempt.save();
-        } else {
-
-            let codingAttempt = new CodingAttempt()
-            codingAttempt.candidate = idCandidate
-            codingAttempt.codingTest = idCodingTest
-            codingAttempt.codingAttemptFile = attemptFileName
-            codingAttempt.codingTestCasesFile = testAttemptFilePath
-            codingAttempt.testCases = attemptResultObj
-
-            await codingAttempt.save();
-
-        }
-
+        await codingAttempt.save();
 
         res.send({ message: attemptResultObj })
-
 
     } catch (err) {
 
