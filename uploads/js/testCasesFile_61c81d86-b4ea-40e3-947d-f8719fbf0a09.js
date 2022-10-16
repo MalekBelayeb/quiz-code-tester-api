@@ -1,4 +1,4 @@
-import addTwoNumbers from "${attempt_path}"
+const addTwoNumbers = require("${attempt_path}")
 
 test("Somme de deux entier",()=>{
     expect(addTwoNumbers(5,3)).toEqual(8)

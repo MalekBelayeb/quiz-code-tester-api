@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CodingAttemptSchema = new Schema({
@@ -13,4 +13,4 @@ const CodingAttemptSchema = new Schema({
     timestamps: true
 });
 
-export default mongoose.model('CodingAttempt', CodingAttemptSchema);
+module.exports = mongoose.model('CodingAttempt', CodingAttemptSchema);

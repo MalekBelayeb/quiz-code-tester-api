@@ -1,8 +1,7 @@
-
-import multer from "multer";
-import path from "path";
-import { v4 as uuidv4 } from 'uuid';
-import getFolder from "../tools/folderManger.mjs";
+const multer = require("multer");
+const path = require("path");
+const { v4: uuidv4  } = require('uuid');
+const getFolder = require("../tools/folder-manager.js");
 
 var storage = multer.diskStorage({
 
@@ -28,7 +27,7 @@ var storage = multer.diskStorage({
 
 });
 
-export default multer({ storage: storage, limits: { fileSize: 5000000 /* 5MB */ } }).fields([
+module.exports = multer({ storage: storage, limits: { fileSize: 5000000 /* 5MB */ } }).fields([
 
   { name: 'codeFile', maxCount: 1 },
   { name: 'testCasesFile', maxCount: 1 },

@@ -1,8 +1,9 @@
-import CodingTest from '../models/codingTest.model.mjs';
-import CodingAttempt from '../models/codingAttempt.model.mjs';
-import getFolder from "../tools/folderManger.mjs";
-import fs from '../tools/fsPrototypes.mjs'
-import mongoose from 'mongoose';
+const CodingTest = require('../models/coding-test-model.js');
+const CodingAttempt = require('../models/coding-attempt-model.js');
+const getFolder = require ("../tools/folder-manager.js");
+const fs = require('../tools/fs-prototypes.js');
+const mongoose = require ('mongoose');
+
 
 const createCodingTest = async (req, res) => {
 
@@ -39,34 +40,35 @@ const createCodingTest = async (req, res) => {
 const getCodingTest = async (req, res) => {
 
     try {
-
+        
         let result = {}
-        console.log(new mongoose.Types.ObjectId.isValid(req.params.id))
-        if(!ObjectId.isValid(req.params.id))  return res.status(404).send({ message: "Invalid id" })
 
         var codingTest = await CodingTest.aggregate([
+            { $match: { _id: new mongoose.Types.ObjectId(req.params.id) } },
             {
-                $match: { _id: new mongoose.Types.ObjectId(req.params.id) }
-            }
+                $lookup: {
+                    from: "codingattempts",
+                    localField: "_id",
+                    foreignField: "codingTest",
+                    pipeline:[{$sort:{"createdAt":-1}},{$limit:1}],
+                    as: "lastAttempts"
+                }
+            },
         ]).exec();
-
-        console.log(codingTest)
         
         if (!codingTest || codingTest.legnth < 0) return res.status(404).send({ message: "coding test no found" })
         codingTest = codingTest[0];
-
         result.description = codingTest.testDescription ?? ""
-        result.codeText = await fs.readFileAsync("uploads/" + codingTest.codeFile)
+        result.codeText = await fs.readFileAsync("uploads/" + (codingTest.lastAttempts.length > 0 ? 'js/'+codingTest.lastAttempts[0].codingAttemptFile : codingTest.codeFile));
 
         res.send(result)
-
+        
     } catch (err) {
 
         console.log(err)
         res.status(404).end()
+        
     }
-
-
 }
 
 const testCodingTest = async (req, res) => {
@@ -101,7 +103,7 @@ const testCodingTest = async (req, res) => {
 }
 
 
-export default { createCodingTest, getCodingTest, testCodingTest }
+module.exports = { createCodingTest, getCodingTest, testCodingTest }
 
 
 

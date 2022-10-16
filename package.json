@@ -2,12 +2,12 @@
   "name": "codetesterapi",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
-  "main": "src/server.mjs",
+  "type": "commonjs",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon ./src/server.mjs",
-    "start": "node src/server.mjs",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "dev": "nodemon ./src/server.js",
+    "start": "node src/server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",

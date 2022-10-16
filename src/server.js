@@ -1,17 +1,15 @@
-import express from "express";
-import morgan from "morgan";
-import bodyParser from "body-parser"
-import cors from "cors";
-import path from "path";
-import dotenv from "dotenv";
-import codingTestRoute from './routes/codingTest.route.mjs';
-import candidateRoute from './routes/candidate.route.mjs';
-import { fileURLToPath } from 'url';
-import mongoose from 'mongoose';
+const express = require("express");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const path = require("path");
+const dotenv = require("dotenv");
+const codingTestRoute = require('./routes/coding-test-route');
+const candidateRoute = require('./routes/candidate-route');
+const mongoose = require('mongoose');
 
 const app = express();
 dotenv.config();
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -44,4 +42,4 @@ app.listen(process.env.PORT, () => {
 
 });
 
-export default app;
+module.exports = app;

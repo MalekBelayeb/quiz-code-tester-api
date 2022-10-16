@@ -1,9 +1,9 @@
-import { run } from '../tools/commandRunner.mjs'
-import getFolder from "../tools/folderManger.mjs";
-import CodingTest from '../models/codingTest.model.mjs';
-import fs from '../tools/fsPrototypes.mjs'
+const  run  = require('../tools/command-runner.js')
+const getFolder = require("../tools/folder-manager.js");
+const CodingTest = require ('../models/coding-test-model.js');
+const fs = require('../tools/fs-prototypes.js');
 
-export default async (req, res, next) => {
+module.exports = async (req, res, next) => {
 
     try {
 

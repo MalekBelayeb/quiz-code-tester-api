@@ -1,6 +1,6 @@
-import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
-import getFolder from "../tools/folderManger.mjs";
+const fs = require("fs");
+const { v4: uuidv4  } = require('uuid');
+const getFolder  = require ("./folder-manager.js");
 
 fs.readFileAsync = (filename) => {
 
@@ -41,4 +41,4 @@ fs.replaceInFile = (file, textToBeReplace, withText) => {
 }
 
 
-export default fs;
+module.exports = fs;

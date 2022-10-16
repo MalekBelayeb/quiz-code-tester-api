@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CodingTestSchema = new Schema({
@@ -12,4 +12,4 @@ const CodingTestSchema = new Schema({
     
 });
 
-export default mongoose.model('CodingTest', CodingTestSchema);
+module.exports = mongoose.model('CodingTest', CodingTestSchema);

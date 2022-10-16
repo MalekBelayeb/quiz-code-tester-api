@@ -1,9 +1,8 @@
-import { run } from '../tools/commandRunner.mjs'
+const run  = require('../tools/command-runner');
 
-export default (req, res, next) => {
+module.exports = (req, res, next) => {
 
     let attemptFiles = req.files?.attempt ?? [0]
-
     var processStatus = 'CODE_INCORRECT' | 'CODE_CORRECT' | 'REACHED_TIMEOUT'
     var message = ''
 
@@ -14,7 +13,7 @@ export default (req, res, next) => {
         let child = run("node " + attemptFiles[0].path)
 
         child.stdout.on('data', data => {
-
+            
             req.attemptFilePath = attemptFiles[0].path
             req.attemptFileName = attemptFiles[0].filename
             message = ''

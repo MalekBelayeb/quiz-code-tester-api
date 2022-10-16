@@ -1,10 +1,9 @@
-import path from "path"
-import fs from "fs"
-import {fileURLToPath} from 'url';
+const path = require("path");
+const fs = require("fs");
 
-export default (folderName) => {
 
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+module.exports = (folderName) => {
+
     let serverRootPath = path.join(__dirname, '../../')
     let imageUploadsPath = serverRootPath + '/uploads/' + folderName + "/"
 

@@ -1,5 +1,5 @@
-import Candidate from '../models/candidate.model.mjs'
-import jwt from 'jsonwebtoken';
+const Candidate = require('../models/candidate-model');
+const jwt = require('jsonwebtoken');
 
 const signUpCandidate = async (req, res) => {
 
@@ -79,5 +79,4 @@ const signInCandidate = async (req, res) => {
 
 }
 
-
-export default { signUpCandidate, signInCandidate }
+module.exports = { signUpCandidate, signInCandidate }

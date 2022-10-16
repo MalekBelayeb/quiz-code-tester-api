@@ -1,4 +1,4 @@
-import CodingQuiz from '../models/codingQuiz.model.mjs';
+const CodingQuiz = require('../models/codingQuiz.model.js');
 
 const createCodingQuiz = async (req,res) => {
 
@@ -11,7 +11,7 @@ const createCodingQuiz = async (req,res) => {
         
         await codingQuiz.save();
         res.status(200).json({message: "Coding quiz created."})
-
+        
     }catch(err)
     {
 
@@ -23,4 +23,4 @@ const createCodingQuiz = async (req,res) => {
 }
 
 
-export default {createCodingQuiz};
+module.exports = {createCodingQuiz};
