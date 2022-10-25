@@ -10,6 +10,7 @@ const app = router.Router();
 
 app.post("/v1/coding-test",fileUpload,codingTestController.createCodingTest);
 app.get("/v1/coding-test/:id"   ,codingTestController.getCodingTest);
+
 app.post("/v1/coding-test/test",verifyToken,fileUpload,runJSCode,testJSCode,resultTestInterpreter,codingTestController.testCodingTest);
 
 module.exports = app;

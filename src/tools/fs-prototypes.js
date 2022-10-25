@@ -15,6 +15,7 @@ fs.readFileAsync = (filename) => {
 };
 
 fs.replaceInFile = (file, textToBeReplace, withText) => {
+    
     return new Promise(function (resolve, reject) {
         fs.readFile(file, 'utf8', function (err, data) {
             if (err) {
