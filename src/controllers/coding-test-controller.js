@@ -10,13 +10,13 @@ const createCodingTest = async (req, res) => {
     try {
 
         const codingTest = new CodingTest()
-        codingTest.testDescription = req.body.testDescription;
+        codingTest.testDescription = req.body.descriptionCodingTest;
         codingTest.codeFile = req.body.programmingLanguage + "\\" + req.files?.codeFile[0].filename
         codingTest.testCasesFile = req.body.programmingLanguage + "\\" + req.files?.testCasesFile[0].filename
         codingTest.programmingLanguage = req.body.programmingLanguage
 
-        let newCodingTest = await codingTest.save();
-        res.json({ message: "Coding test created.", newCodingTest })
+        //let newCodingTest = await codingTest.save();
+        res.json({ message: "Coding test created.", newCodingTest:"" })
 
     } catch (err) {
 
@@ -76,21 +76,18 @@ const testCodingTest = async (req, res) => {
     try {
 
         let idCodingTest = req.body.idTest
-        let idCandidate = req.iduser
-        let attemptFileName = req.attemptFileName
-        let testAttemptFilePath = req.testAttemptFilePath
-        let attemptResultObj = req.attemptResult
+        let {idCandidate,attemptFileName,testAttemptFilePath,attemptResult} = req;
 
         let codingAttempt = new CodingAttempt()
         codingAttempt.candidate = idCandidate
         codingAttempt.codingTest = idCodingTest
         codingAttempt.codingAttemptFile = attemptFileName
         codingAttempt.codingTestCasesFile = testAttemptFilePath
-        codingAttempt.testCases = attemptResultObj
+        codingAttempt.testCases = attemptResult
 
         await codingAttempt.save();
 
-        res.send({ message: attemptResultObj })
+        res.send({ message: attemptResult })
 
     } catch (err) {
 

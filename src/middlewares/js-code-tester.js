@@ -6,7 +6,7 @@ const fs = require('../tools/fs-prototypes.js');
 module.exports = async (req, res, next) => {
 
     try {
-
+        console.log("start code-tester")
         let attemptFilePath = req.attemptFilePath
         let idTest = req.body.idTest
 
@@ -22,6 +22,7 @@ module.exports = async (req, res, next) => {
 
                 let message = data.toString()
                 result.push(message.split(/\n/))
+                console.log("end code-tester")
 
             });
 

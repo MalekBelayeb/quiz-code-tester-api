@@ -7,6 +7,7 @@
 
 module.exports = (req, res, next) => {
 
+    console.log("start code-interpreter")
     let testResult = req.testResult
     let testCasesResult = []
         
@@ -46,6 +47,7 @@ module.exports = (req, res, next) => {
     })
 
     req.attemptResult = attemptResult
+    console.log("end code-interpreter")
 
    next()
         

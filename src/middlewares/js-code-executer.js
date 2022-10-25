@@ -1,7 +1,7 @@
 const run  = require('../tools/command-runner');
 
 module.exports = (req, res, next) => {
-
+    console.log("start code-executer")
     let attemptFiles = req.files?.attempt ?? [0]
     var processStatus = 'CODE_INCORRECT' | 'CODE_CORRECT' | 'REACHED_TIMEOUT'
     var message = ''
@@ -18,8 +18,8 @@ module.exports = (req, res, next) => {
             req.attemptFileName = attemptFiles[0].filename
             message = ''
             processStatus = 'CODE_CORRECT'
-        })
 
+        })
 
         child.stderr.on('data', data => {
 
@@ -40,11 +40,11 @@ module.exports = (req, res, next) => {
 
         //to prevent long execution code and infinite process  / eg: while(true) { }
         setTimeout(() => {
-
+            
             message = "Long execution code timeout reached"
             processStatus = 'REACHED_TIMEOUT'
+            child.kill(); 
 
-            child.kill();
         }, timeoutProcess);
 
         //on forced to terminate
@@ -64,7 +64,7 @@ module.exports = (req, res, next) => {
             switch (processStatus) {
                 case 'CODE_INCORRECT':
                     {
-
+                        
                         res.status(402).send({ message })
 
                     }

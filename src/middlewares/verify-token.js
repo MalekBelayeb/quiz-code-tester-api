@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
             if (err) {
                 res.sendStatus(403)
             } else {
-                req.iduser = payload.iduser
+                req.idCandidate = payload.iduser
                 next();
             }
         });
