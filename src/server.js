@@ -6,7 +6,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const codingTestRoute = require('./routes/coding-test-route');
 const candidateRoute = require('./routes/candidate-route');
-const mongoose = require('mongoose');
+
 
 const app = express();
 dotenv.config();
@@ -22,9 +22,21 @@ app.use('/api', candidateRoute);
 
 
 
+// This should be the last route else any after it won't work
+app.use("*", (req, res) => {
+  res.status(404).json({
+    success: "false",
+    message: "Page not found",
+    error: {
+      statusCode: 404,
+      message: "You reached a route that is not defined on this server",
+    },
+  });
+});
+
 app.listen(process.env.PORT, () => {
 
-    console.log(`server started at http://localhost:${process.env.PORT}`);
+  console.log(`server started at http://localhost:${process.env.PORT}`);
     //const child = run("dir -l")
 
 });
